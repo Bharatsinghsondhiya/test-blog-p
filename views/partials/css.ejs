@@ -1,101 +1,194 @@
 <style>
-    /* Purple theme buttons */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Premium Purple theme buttons */
     .btn-purple {
-      background: linear-gradient(90deg, #6D28D9, #7C3AED);
+      background: linear-gradient(135deg, #7e22ce, #6366f1);
       border: none;
       color: #fff !important;
       font-weight: 600;
-      border-radius: 8px;
+      border-radius: 10px;
+      padding: 0.6rem 1.2rem;
+      box-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.39);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
+    
+    .btn-purple::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: all 0.4s ease;
+    }
+
     .btn-purple:hover {
-      opacity: .92;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
       color: #fff !important;
+    }
+    
+    .btn-purple:hover::after {
+      left: 100%;
     }
 
     .btn-purple-outline {
-      border: 2px solid #6D28D9 !important;
-      color: #6D28D9 !important;
+      background: transparent;
+      border: 2px solid #7e22ce !important;
+      color: #7e22ce !important;
       font-weight: 600;
-      border-radius: 8px;
+      border-radius: 10px;
+      padding: 0.5rem 1.1rem;
+      transition: all 0.3s ease;
     }
     .btn-purple-outline:hover {
-      background: #6D28D9;
+      background: linear-gradient(135deg, #7e22ce, #6366f1);
+      border-color: transparent !important;
+      box-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.39);
       color: #fff !important;
     }
 
-    /* Grid container */
+    /* Modern Grid container */
     .posts-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1.25rem;
-      align-items: start;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.8rem;
+      align-items: stretch;
+      padding: 1rem 0;
     }
 
+    /* Glassmorphism & Premium Card */
     .blog-card {
-      border-radius: 12px;
+      border-radius: 16px;
       overflow: hidden;
-      background: #fff;
-      box-shadow: 0 6px 18px rgba(18, 38, 63, 0.06);
-      transition: transform .18s ease, box-shadow .18s ease;
+      background: #ffffff;
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       display: flex;
       flex-direction: column;
       height: 100%;
+      position: relative;
     }
+    
+    .blog-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, #7e22ce, #6366f1);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 3;
+    }
+
     .blog-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 30px rgba(18, 38, 63, 0.10);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+    
+    .blog-card:hover::before {
+      opacity: 1;
     }
 
     .blog-card .cover {
       width: 100%;
-      height: 160px;
+      height: 180px;
       object-fit: cover;
-      background: #ede9fe;
+      background: #f1f5f9;
+      transition: transform 0.6s ease;
+    }
+    
+    .blog-card:hover .cover {
+      transform: scale(1.06);
+    }
+    
+    .cover-wrapper {
+      overflow: hidden;
+      border-radius: 16px 16px 0 0;
+      position: relative;
+      width: 100%;
+      height: 180px;
+    }
+    
+    /* In case the cover image isn't wrapped in a wrapper, target it directly */
+    .blog-card > img.cover {
+       /* Fallback if no wrapper */
+       height: 180px;
+       width: 100%;
+       object-fit: cover;
+       border-radius: 16px 16px 0 0;
     }
 
     .blog-card .card-body {
-      padding: 1rem;
+      padding: 1.5rem;
       display: flex;
       flex-direction: column;
-      gap: .6rem;
+      gap: 0.8rem;
+      flex-grow: 1;
+      background: #ffffff;
+      z-index: 2;
     }
 
     .blog-title {
-      font-size: 1.05rem;
+      font-size: 1.25rem;
       font-weight: 700;
-      color: #1e1b4b;
+      color: #0f172a;
       margin: 0;
-      line-height: 1.25;
-      min-height: 2.5em;
+      line-height: 1.4;
+      min-height: 2.8em;
       overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      transition: color 0.2s ease;
+    }
+    
+    .blog-card:hover .blog-title {
+      color: #6366f1;
     }
 
     .meta {
-      font-size: .85rem;
-      color: #6b7280;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #64748b;
       display: flex;
-      gap: .6rem;
+      align-items: center;
+      gap: 0.8rem;
       flex-wrap: wrap;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
     .excerpt {
-      color: #334155;
-      font-size: .95rem;
+      color: #475569;
+      font-size: 0.95rem;
+      line-height: 1.6;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       display: -webkit-box;
       overflow: hidden;
+      margin-bottom: auto;
     }
 
     .card-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: .6rem;
+      margin-top: 1.2rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid #f1f5f9;
     }
 
     @media (max-width: 576px) {
-      .blog-card .cover { height: 150px; }
-      .blog-title { font-size: 1rem; }
+      .blog-card .cover, .cover-wrapper, .blog-card > img.cover { height: 160px; }
+      .posts-grid { gap: 1.2rem; }
+      .blog-title { font-size: 1.15rem; }
     }
-  </style>
+</style>

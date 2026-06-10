@@ -1,47 +1,140 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+<style>
+  /* Unique Royal Purple Navbar */
+  .custom-nav {
+    background: linear-gradient(90deg, #4C1D95, #6D28D9, #7C3AED);
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  /* White icon for the toggler */
+  .navbar-toggler-icon {
+    filter: brightness(50);
+  }
+
+  /* Clean nav links */
+  .custom-link {
+    color: #EDE9FE !important; 
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .custom-link:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: white !important;
+  }
+
+  .custom-link.active {
+    background: rgba(255, 255, 255, 0.25);
+    color: #fff !important;
+  }
+
+  /* Add Blog button */
+  .custom-add-btn {
+    border: none !important;
+    background: #FFFFFF !important;
+    color: #4C1D95 !important;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 8px;
+  }
+  .custom-add-btn:hover {
+    opacity: 0.85;
+  }
+
+  /* Avatar */
+  .user-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,0.4);
+  }
+
+  /* Dropdown styling */
+  .custom-dropdown {
+    background: #4C1D95;
+    border: none;
+  }
+
+  .custom-dropdown .dropdown-item {
+    color: #F5F3FF !important;
+  }
+
+  .custom-dropdown .dropdown-item:hover {
+    background: rgba(255,255,255,0.15) !important;
+    color: #fff !important;
+  }
+
+  .custom-dropdown .dropdown-divider {
+    border-color: rgba(255,255,255,0.2);
+  }
+</style>
+
+<nav class="navbar navbar-expand-lg custom-nav" data-bs-theme="dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Blogify</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+
+    <a class="navbar-brand fw-bold text-white" href="/">Blogify</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+      data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+      aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
+
+      <!-- Left links -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Add Blog</a>
-        </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li> -->
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          Bharat singh
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Log out</a></li>
-
-
-
-            <!-- <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li> -->
-
-
-          </ul>
+          <a class="nav-link custom-link active" href="/">Home</a>
         </li>
       </ul>
+
+      <!-- Right side -->
+      <ul class="navbar-nav ms-auto align-items-center">
+
+        <% if (locals.user) { %>
+
+          <li class="nav-item me-2">
+            <a class="custom-add-btn" href="/blog/add-new">Add Blog</a>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link custom-link dropdown-toggle d-flex align-items-center"
+               href="#" id="userMenu" role="button" data-bs-toggle="dropdown">
+
+              <img
+                src="<%= locals.user.profileImageURL || '/images/avatar-placeholder.png' %>"
+                class="user-avatar me-2"
+              />
+
+              <span><%= locals.user.fullName %></span>
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-end custom-dropdown" aria-labelledby="userMenu">
+              <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
+              <li><a class="dropdown-item" href="/user/settings">Settings</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" href="/user/logout">Log out</a></li>
+            </ul>
+          </li>
+
+        <% } else { %>
+
+          <li class="nav-item">
+            <a class="nav-link custom-link" href="/user/signup">Create Account</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link custom-link" href="/user/signin">Sign in</a>
+          </li>
+
+        <% } %>
+
+      </ul>
     </div>
+
   </div>
 </nav>
-
-
-
-<% if (locals.error) { %>
-  <div class="container mt-4" >
- <div class="alert alert-danger" role="alert">
-    <%= locals.error %>
-  </div>
-  </div>
- 
-<% } %>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/head') %>
+  <title>Add New Blog — Blogify</title>
+
+  <style>
+    /* Page container */
+    .add-blog-wrap {
+      max-width: 900px;
+      margin: 28px auto;
+      padding: 18px;
+    }
+
+    /* Card */
+    .panel {
+      background: linear-gradient(180deg, rgba(124,58,237,0.04), #fff);
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(16,24,40,0.06);
+      overflow: hidden;
+      border: 1px solid rgba(124,58,237,0.08);
+    }
+
+    .panel-header {
+      background: linear-gradient(90deg, #4C1D95 0%, #6D28D9 100%);
+      color: white;
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .panel-header h2 {
+      margin: 0;
+      font-size: 1.1rem;
+      letter-spacing: 0.2px;
+    }
+
+    .panel-body {
+      padding: 18px;
+    }
+
+    /* Form layout */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    @media (min-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr 300px; /* left: inputs, right: preview */
+        align-items: start;
+      }
+    }
+
+    .left-col {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+    }
+
+    label.form-label {
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .form-control {
+      border-radius: 8px;
+      padding: 10px 12px;
+      border: 1px solid rgba(15,23,42,0.08);
+      box-shadow: none;
+    }
+
+    textarea.form-control {
+      min-height: 180px;
+      resize: vertical;
+    }
+
+    .btn-post {
+      background: #6D28D9;
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: 10px;
+    }
+    .btn-post:hover { opacity: .94; }
+
+    /* Image preview */
+    .cover-preview {
+      width: 100%;
+      max-width: 300px;
+      height: 190px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: linear-gradient(180deg,#f3f4f6,#e9e7ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px dashed rgba(15,23,42,0.06);
+    }
+
+    .cover-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .muted {
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    /* Alerts */
+    .alert-custom {
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.04);
+    }
+    .alert-error { background: #FDECEA; color: #7A1A1A; border-left: 5px solid #D61F40; }
+    .alert-success { background: #ECFDF5; color: #064E3B; border-left: 5px solid #10B981; }
+
+    /* small helper */
+    .small-note { font-size: 0.9rem; color: #475569; }
+  </style>
+</head>
+<body>
+  <%- include("./partials/nav") %>
+
+  <main class="add-blog-wrap">
+    <div class="panel">
+      <div class="panel-header">
+        <h2>Add New Blog</h2>
+        <div class="muted">Logged in as <strong><%= locals.user ? locals.user.fullName : 'Guest' %></strong></div>
+      </div>
+
+      <div class="panel-body">
+
+        <% if (locals.error) { %>
+          <div class="alert-custom alert-error">
+            ⚠️ <%= locals.error %>
+          </div>
+        <% } %>
+
+        <% if (locals.success) { %>
+          <div class="alert-custom alert-success">
+            ✅ <%= locals.success %>
+          </div>
+        <% } %>
+
+        <form action="/blog" method="post" enctype="multipart/form-data" id="addBlogForm" novalidate>
+          <div class="form-row">
+
+            <!-- LEFT: inputs -->
+            <div class="left-col">
+              <div>
+                <label for="coverImage" class="form-label">Cover image</label>
+                <input type="file" class="form-control" id="coverImage" name="coverImage" accept="image/*">
+                <div class="small-note">Recommended size: 1200×600. JPG/PNG up to 3MB.</div>
+              </div>
+
+              <div>
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title" placeholder="Enter an engaging title" required>
+              </div>
+
+              <div>
+                <label for="body" class="form-label">Body</label>
+                <textarea class="form-control" id="body" name="body" placeholder="Write the content of your blog post..." required></textarea>
+              </div>
+
+              <div style="display:flex; gap:10px; align-items:center; margin-top:6px;">
+                <button type="submit" class="btn-post">Post Blog</button>
+                <a href="/" class="btn btn-outline-secondary" style="border-radius:10px;">Cancel</a>
+              </div>
+            </div>
+
+            <!-- RIGHT: preview -->
+            <div class="right-col">
+              <div class="cover-preview" id="coverPreview">
+                <img id="previewImg" src="/images/placeholder-600x400.png" alt="cover preview">
+              </div>
+              <div class="small-note">Preview — image will show here before upload.</div>
+              <div style="width:100%; text-align:center; margin-top:8px;">
+                <button type="button" id="removeImageBtn" class="btn btn-sm btn-outline-danger" style="border-radius:8px; display:none;">Remove image</button>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <%- include("./partials/script") %>
+
+  <script>
+    // small client-side preview + remove
+    (function(){
+      const input = document.getElementById('coverImage');
+      const preview = document.getElementById('previewImg');
+      const removeBtn = document.getElementById('removeImageBtn');
+
+      input.addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) {
+          preview.src = '/images/placeholder-600x400.png';
+          removeBtn.style.display = 'none';
+          return;
+        }
+        const url = URL.createObjectURL(file);
+        preview.src = url;
+        removeBtn.style.display = 'inline-block';
+      });
+
+      removeBtn.addEventListener('click', () => {
+        input.value = '';
+        preview.src = '/images/placeholder-600x400.png';
+        removeBtn.style.display = 'none';
+      });
+
+      // basic client-side form check (small UX improvement)
+      const form = document.getElementById('addBlogForm');
+      form.addEventListener('submit', (e) => {
+        const title = document.getElementById('title').value.trim();
+        const body = document.getElementById('body').value.trim();
+        if (!title || !body) {
+          e.preventDefault();
+          alert('Please add both title and body before posting.');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./partials/head') %>
+        <title>BlogPage</title>
+</head>
+
+<body>
+    <%- include("./partials/css") %>
+        <%- include("./partials/nav") %>
+
+
+            <div class="container">
+                <h2 class=" mt-4">
+                    <%= blog.tittle || blog.title || 'Untitled' %>
+                </h2>
+                <div class="meta">
+                    <span>•</span>
+                    <span><small>
+                            <%= blog.CreatedBy && blog.CreatedBy.fullName ? blog.CreatedBy.fullName : "Anonymous" %>
+                        </small></span>
+                    <span><small>
+                            <%= blog.createdAt ? new Date(blog.createdAt).toLocaleDateString() : '' %>
+                        </small></span>
+
+                </div>
+                <img src="<%= blog.coverImageURL || '/images/placeholder-600x400.png' %>" width="700px" class="cover"
+                    alt="cover" onerror="this.onerror=null;this.src='/images/placeholder-600x400.png';" />
+                <p class="excerpt mt-4">
+                    <%= blog.body || 'No preview available.' %>
+                </p>
+
+<div class="container mt-3">
+    <h1>Comments</h1>
+<% if (locals.user) { %>
+ <form action="/blog/comment/<%=blog._id %>" method="post"> 
+
+  <div class="mb-3">
+
+    <input 
+    type="text" 
+    name="content"
+    class="form-control"
+    placeholder="write you comments"
+    />
+<button class="btn btn-sm btn-primary mt-2" type="submit">Add</button>
+  </div>
+<% } %>
+</div>
+
+                <%- include("./partials/script") %>
+</body>
+
+<html>
+
+</html>

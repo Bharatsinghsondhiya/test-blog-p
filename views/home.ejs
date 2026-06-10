@@ -1,14 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <%- include('./partials/head') %>
-    <title>Home page</title>
+  <%- include('./partials/head') %>
+  <title>Home — Blogify</title>
+
+
 </head>
+
 <body>
-    <%- include("./partials/nav") %>
 
+  <%- include("./partials/css") %>
+  <%- include("./partials/nav") %>
 
-    <%- include("./partials/script") %>
+  <main class="container mt-4 mb-5">
 
+    <!-- Header top row -->
+    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-4">
+
+      <div>
+        <h1 class="h4 mb-1">Latest Posts</h1>
+        <p class="text-muted mb-0">Browse the latest posts from the community.</p>
+      </div>
+
+      <div class="d-flex gap-2">
+
+        <!-- Search box always visible -->
+        <form class="d-flex" action="/search" method="get">
+          <input name="q" class="form-control me-2" type="search" placeholder="Search posts" aria-label="Search">
+          <button class="btn btn-purple-outline" type="submit">Search</button>
+        </form>
+
+        <!-- NEW POST button only when logged in -->
+        <% if (locals.user) { %>
+          <a href="/blog/add-new" class="btn btn-purple">New Post</a>
+        <% } %>
+
+      </div>
+    </div>
+
+    <!-- Posts Grid -->
+    <section class="posts-grid">
+
+      <% if (!blogs || blogs.length === 0) { %>
+        <div class="alert alert-light w-100">
+          No posts yet. Be the first to 
+          <% if (locals.user) { %>
+            <a href="/blog/add-new">create a post</a>.
+          <% } else { %>
+            <a href="/user/signin">login and create a post</a>.
+          <% } %>
+        </div>
+      <% } %>
+
+      <% blogs.forEach(blog => { %>
+        <article class="blog-card">
+
+          <img
+            src="<%= blog.coverImageURL || '/images/placeholder-600x400.png' %>"
+            class="cover"
+            alt="cover"
+            onerror="this.onerror=null;this.src='/images/placeholder-600x400.png';"
+          />
+
+          <div class="card-body">
+            <h2 class="blog-title"><%= blog.tittle || blog.title || 'Untitled' %></h2>
+
+            <div class="meta">
+              <span>•</span>
+              <span><small><%= blog.CreatedBy && blog.CreatedBy.fullName ? blog.CreatedBy.fullName : "Anonymous" %></small></span>
+
+              <span><small><%= blog.createdAt ? new Date(blog.createdAt).toLocaleDateString() : '' %></small></span>
+            </div>
+
+            <p class="excerpt"><%= blog.body || 'No preview available.' %></p>
+
+            <div class="card-footer">
+              <span class="text-muted small">
+                <%= blog.commentsCount ? blog.commentsCount + ' comments' : '' %>
+              </span>
+              <a href="/blog/<%= blog._id %>" class="btn btn-sm btn-purple">Read More</a>
+            </div>
+          </div>
+
+        </article>
+      <% }) %>
+
+    </section>
+
+  </main>
+
+  <%- include("./partials/script") %>
 </body>
 </html>

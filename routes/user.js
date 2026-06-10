@@ -28,36 +28,24 @@ router.post("/signup", async(req,res)=>{
  return res.redirect("/");
 })
 
-// router.post('/signin', async (req, res) => {
-// const { email, password } = req.body;
-//    console.log(email, password);
-//  try {
-//  const token = await User.matchPasswordAndGenrateToken(email, password);
-//       return res.cookie("token",token).redirect('/');
-//  } catch (error) {
-//    return res.render("signin",{
-//       error : "incorrect email or password"
-//    })
-//  }
-  
-// });
-
 router.post('/signin', async (req, res) => {
   const { email, password } = req.body;
-  console.log('signin attempt ->', email, password);
+  console.log(email, password);
 
   try {
-    // calling the correctly spelled static
-    const token = await User.matchPasswordAndGenerateToken(email, password);
-    console.log('token created length:', token && token.length);
-    return res.cookie('token', token, { httpOnly: true }).redirect('/');
+    const token = await User.matchPasswordAndGenrateToken(email, password);
+    return res.cookie("token", token).redirect('/');
   } catch (error) {
-    console.log('signin failed:', error && error.message);
-    return res.render('signin', {
-      error: 'incorrect email or password'
+    return res.render("signin", {
+      error: "incorrect email or password"
     });
   }
 });
+
+
+router.get("/logout",(req,res)=>{
+  res.clearCookie("token").redirect("/");
+})
 
 
 

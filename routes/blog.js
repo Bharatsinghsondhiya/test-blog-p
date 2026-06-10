@@ -33,8 +33,8 @@ router.get("/:id", async (req, res) => {
 
     if (!blog) return res.status(404).send("Blog not found");
 
-    const comments = await Comment.find({ blogid: req.params.id })
-      .populate("createdBy", "fullName")   // show commenter name
+    const comments = await Comment.find({ blogId: req.params.id })
+      .populate("CreatedBy", "fullName")   // show commenter name
       .sort({ createdAt: -1 })             // newest first
       .lean();
 
@@ -75,8 +75,8 @@ router.post("/comment/:blogId", async (req, res) => {
     }
     await Comment.create({
       content: req.body.content,
-      blogid: req.params.blogId,
-      createdBy: req.user._id,
+      blogId: req.params.blogId,
+      CreatedBy: req.user._id,
     });
     return res.redirect(`/blog/${req.params.blogId}`);
   } catch (error) {

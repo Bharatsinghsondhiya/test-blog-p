@@ -11,43 +11,51 @@
         <%- include("./partials/nav") %>
 
 
-            <div class="container">
-                <h2 class=" mt-4">
-                    <%= blog.tittle || blog.title || 'Untitled' %>
-                </h2>
-                <div class="meta">
-                    <span>•</span>
-                    <span><small>
-                            <%= blog.CreatedBy && blog.CreatedBy.fullName ? blog.CreatedBy.fullName : "Anonymous" %>
-                        </small></span>
-                    <span><small>
-                            <%= blog.createdAt ? new Date(blog.createdAt).toLocaleDateString() : '' %>
-                        </small></span>
-
+            <div class="container mt-5">
+                <div class="blog-content-wrapper" style="background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); padding: 3rem; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); border: 1px solid rgba(226, 232, 240, 0.8);">
+                    <h2 class="fw-bold mb-3" style="color: #0f172a;">
+                        <%= blog.tittle || blog.title || 'Untitled' %>
+                    </h2>
+                    <div class="meta mb-4 pb-3 border-bottom" style="font-size: 0.9rem; color: #64748b;">
+                        <span><small class="fw-semibold">
+                                BY <%= blog.CreatedBy && blog.CreatedBy.fullName ? blog.CreatedBy.fullName : "Anonymous" %>
+                            </small></span>
+                        <span class="mx-2">•</span>
+                        <span><small>
+                                <%= blog.createdAt ? new Date(blog.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) : '' %>
+                            </small></span>
+                    </div>
+                    
+                    <img src="<%= blog.coverImageURL || '/images/placeholder-600x400.png' %>" class="img-fluid rounded-4 shadow-sm mb-5 w-100" style="max-height: 500px; object-fit: cover;" alt="cover" onerror="this.onerror=null;this.src='/images/placeholder-600x400.png';" />
+                    
+                    <div class="blog-body" style="font-size: 1.1rem; line-height: 1.8; color: #334155;">
+                        <%= blog.body || 'No preview available.' %>
+                    </div>
                 </div>
-                <img src="<%= blog.coverImageURL || '/images/placeholder-600x400.png' %>" width="700px" class="cover"
-                    alt="cover" onerror="this.onerror=null;this.src='/images/placeholder-600x400.png';" />
-                <p class="excerpt mt-4">
-                    <%= blog.body || 'No preview available.' %>
-                </p>
 
-<div class="container mt-3">
-    <h1>Comments</h1>
-<% if (locals.user) { %>
- <form action="/blog/comment/<%=blog._id %>" method="post"> 
-
-  <div class="mb-3">
-
-    <input 
-    type="text" 
-    name="content"
-    class="form-control"
-    placeholder="write you comments"
-    />
-<button class="btn btn-sm btn-primary mt-2" type="submit">Add</button>
-  </div>
-<% } %>
-</div>
+                <div class="comments-section mt-5 mb-5 p-4" style="background: #f8fafc; border-radius: 16px; border: 1px solid #e2e8f0;">
+                    <h3 class="mb-4 fw-bold" style="color: #1e293b;">Comments</h3>
+                    
+                    <% if (locals.user) { %>
+                    <form action="/blog/comment/<%=blog._id %>" method="post" class="mb-4" style="all: unset; display: block;"> 
+                        <div class="d-flex gap-2">
+                            <input 
+                            type="text" 
+                            name="content"
+                            class="form-control bg-white"
+                            style="border-radius: 12px; padding: 0.8rem 1.2rem; border: 1px solid #cbd5e1;"
+                            placeholder="Write your comment..."
+                            />
+                            <button class="btn btn-purple px-4" style="border-radius: 12px; margin: 0;" type="submit">Post</button>
+                        </div>
+                    </form>
+                    <% } else { %>
+                        <div class="alert alert-light text-center" style="border-radius: 12px; border: 1px dashed #cbd5e1;">
+                            <a href="/user/signin" class="text-decoration-none fw-semibold" style="color: #6366f1;">Log in</a> to leave a comment.
+                        </div>
+                    <% } %>
+                </div>
+            </div>
 
                 <%- include("./partials/script") %>
 </body>

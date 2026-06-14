@@ -8,6 +8,10 @@ A simple blog application built with Node.js, Express, and MongoDB.
 - Image Upload for Blogs
 - Commenting System
 
+## Prerequisites
+- Node.js (v14 or higher)
+- MongoDB
+
 ## Getting Started
 
 1. Install dependencies:

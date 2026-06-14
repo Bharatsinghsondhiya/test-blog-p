@@ -236,7 +236,7 @@
     }
 
     /* Auth Forms Styling */
-    .container form {
+    .auth-form {
       max-width: 480px;
       margin: 4rem auto;
       background: rgba(15, 23, 42, 0.6);
@@ -250,7 +250,7 @@
       overflow: hidden;
     }
 
-    .container form::before {
+    .auth-form::before {
       content: "";
       position: absolute;
       top: 0; left: 0; right: 0; height: 4px;
@@ -302,7 +302,7 @@
       margin-top: 0.5rem;
     }
 
-    .container form .btn-primary {
+    .auth-form .btn-primary {
       width: 100%;
       background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       border: none;
@@ -317,7 +317,7 @@
       transition: all 0.3s ease;
     }
 
-    .container form .btn-primary:hover {
+    .auth-form .btn-primary:hover {
       transform: translateY(-2px);
       box-shadow: 0 12px 25px rgba(219, 39, 119, 0.4);
       background: linear-gradient(135deg, #9333ea, #be185d);
@@ -345,6 +345,6 @@
       .blog-card .cover, .cover-wrapper, .blog-card > img.cover { height: 180px; }
       .posts-grid { gap: 1.5rem; padding: 1rem 0; }
       .blog-title { font-size: 1.2rem; }
-      .container form { padding: 2rem 1.5rem; }
+      .auth-form { padding: 2rem 1.5rem; }
     }
 </style>

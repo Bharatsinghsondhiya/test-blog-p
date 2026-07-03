@@ -3,6 +3,7 @@ const { Schema, model } = require('mongoose');
 
 const blogSchema = new Schema({
 
+    // Title of the blog post
     tittle : {
         type : String,
         required : true,
@@ -14,7 +15,7 @@ const blogSchema = new Schema({
     coverImageURL:{
         type : String,    
     },
-     CreatedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+    CreatedBy: { type: Schema.Types.ObjectId, ref: 'User' },
 
 } ,{timestamps: true})
 

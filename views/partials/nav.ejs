@@ -128,7 +128,7 @@
         <% if (locals.user) { %>
 
           <li class="nav-item me-2">
-            <a class="custom-add-btn" href="/blog/add-new">Add Blog</a>
+            <a class="custom-add-btn" href="/blog/add-new" title="Add a new blog post">Add Blog</a>
           </li>
 
           <li class="nav-item dropdown">
@@ -138,6 +138,7 @@
               <img
                 src="<%= locals.user.profileImageURL || '/images/avatar-placeholder.png' %>"
                 class="user-avatar me-2"
+                alt="User Avatar"
               />
 
               <span><%= locals.user.fullName %></span>

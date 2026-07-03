@@ -19,7 +19,7 @@ const userSchema = new Schema({
         unique: true
     },
 
-    // for hashing purpuse 
+    // for hashing purpose 
     salt: {
         type: String,
     },
@@ -61,8 +61,8 @@ userSchema.pre('save', function (next) {
     next();
 });
 
-// Provide a statics method to check credentials
-userSchema.static("matchPasswordAndGenrateToken", async function (email, password) {
+// Provide a static method to check credentials
+userSchema.static("matchPasswordAndGenerateToken", async function (email, password) {
 
     const user = await this.findOne({ email });
 

@@ -16,16 +16,15 @@ return res.render("signup");
 
 
 router.post("/signup", async(req,res)=>{
-    //we will get data from req body by using destructuring
+  // Extract user data from request body
+  const {fullName, email, password} = req.body;
 
- const {fullName, email,password} = req.body;
-
- await User.create({
+  await User.create({
     fullName,
     email,
     password
- })
- return res.redirect("/");
+  });
+  return res.redirect("/");
 })
 
 router.post('/signin', async (req, res) => {
@@ -33,7 +32,7 @@ router.post('/signin', async (req, res) => {
   console.log(email, password);
 
   try {
-    const token = await User.matchPasswordAndGenrateToken(email, password);
+    const token = await User.matchPasswordAndGenerateToken(email, password);
     return res.cookie("token", token).redirect('/');
   } catch (error) {
     return res.render("signin", {

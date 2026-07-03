@@ -1,18 +1,18 @@
-const {Router, response} = require('express');
+const {Router} = require('express');
 const multer = require("multer");
 const router = Router();   
 const path = require("path")
 const Blog = require("../models/blog")
 const Comment = require("../models/comment");
-console.log(">>> routes/blog.js LOADED");
+// console.log(">>> routes/blog.js LOADED");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.resolve(`./public/upload/`));
   },
   filename: function (req, file, cb) {
-  const fileName = `${Date.now()}-${file.originalname}`
-  cb (null,fileName)
+    const fileName = `${Date.now()}-${file.originalname}`;
+    cb(null, fileName);
   }
 })
 
